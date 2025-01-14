@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blurred Numbers Reveal with Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        .number-box {
+            width: 60px;
+            height: 30px;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            filter: blur(8px);
+            transition: filter 0.3s ease;
+        }
+
+        .number-box.revealed {
+            filter: none;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        #filterInput {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        label {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <label for="filterInput">Enter minimum value to filter:</label>
+    <textarea id="filterInput" placeholder="Type a number..."></textarea>
+
+    <div class="container" id="numberContainer">
+        <!-- Number elements will be dynamically inserted here -->
+    </div>
+
+    <script>
+        const numbers = [3426, 4173, 2947, 4909, 5873, 7699, 2606, 7182, 3102, 8970,
+                         4491, 9171, 2266, 7006, 9841, 3881, 7970, 3640, 2133, 1424,
+                         2036, 5122, 9807, 9023, 7961, 6212, 3772, 7860, 3198, 1206,
+                         8714, 9128, 3979, 9757, 8320, 1595, 2221, 9067, 8340, 5870,
+                         7025, 9352, 2704, 7236, 8812, 9614, 6320, 8457, 3410, 3353,
+                         3415, 9522, 1138, 4181, 4825, 8405, 6235, 6623, 6946, 3358,
+                         3458, 9624, 9645, 8998, 3727, 8116, 7531, 1887, 7596, 4948,
+                         8483, 5299, 5420, 7727, 3136, 6064, 4679, 5321, 9710, 1482,
+                         4406, 2835, 9232, 2120, 6488, 6201, 4382, 9945, 3297, 8156,
+                         2980, 6064, 7018, 3199, 7921, 6037, 3587, 2408, 5387, 7814];
+
+        const numberContainer = document.getElementById('numberContainer');
+        const filterInput = document.getElementById('filterInput');
+
+        // Function to create number elements
+        function displayNumbers(minValue = 0) {
+            numberContainer.innerHTML = '';
+            numbers.forEach(number => {
+                if (number >= minValue) {
+                    const numberElement = document.createElement('div');
+                    numberElement.textContent = number;
+                    numberElement.className = 'number-box';
+                    numberElement.addEventListener('click', function () {
+                        numberElement.classList.add('revealed');
+                    });
+                    numberContainer.appendChild(numberElement);
+                }
+            });
+        }
+
+        // Initial display of all numbers
+        displayNumbers();
+
+        // Update numbers based on filter input
+        filterInput.addEventListener('input', function () {
+            const minValue = parseInt(filterInput.value) || 0;
+            displayNumbers(minValue);
+        });
+    </script>
+
+</body>
+</html>
